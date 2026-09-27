@@ -1,0 +1,34 @@
+// use prisma-8
+
+model Customer {
+  id Int @id @default(autoincrement())
+  name String
+  contactInfo String?
+  orders Order[]
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+enum OrderStatus {
+  Created
+  Fulfilled
+  Cancelled
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  customer Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  status OrderStatus @default(Created)
+  lineItems OrderLineItem[]
+  createdAt TimestamptzString @default(now())
+  updatedAt temporal.updatedAtString()
+}
+
+model OrderLineItem {
+  id Int @id @default(autoincrement())
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int
+  productId String
+  quantity Int
+}
