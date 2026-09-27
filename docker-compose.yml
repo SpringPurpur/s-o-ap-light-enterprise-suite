@@ -1,0 +1,13 @@
+name: enterprise-suite
+
+services:
+  inventory-db:
+    image: mongo:latest
+    container_name: inventory-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - inventory-data:/data/db
+
+volumes:
+  inventory-data:
