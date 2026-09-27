@@ -9,5 +9,14 @@ services:
     volumes:
       - inventory-data:/data/db
 
+    rabbitmq:
+      image: rabbitmq:4-management
+      container_name: rabbitmq
+      ports:
+        - "5672:5672"     # AMQP protocol port (used byservices)
+        - "15672:15672"   # Management UI - browser dashboard
+      volumes:
+        - rabbitmq-data:/var/lib/rabbitmq
+
 volumes:
   inventory-data:
