@@ -21,6 +21,19 @@ services:
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
 
+  sales-db:
+    image: postgres:latest
+    container_name: sales-postgres
+    environment:
+      POSTGRES_USER: sales_user
+      POSTGRES_PASSWORD: sales_pw
+      POSTGRES_DB: SalesDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - sales-data:/var/lib/postgresql
+
 volumes:
   inventory-data:
   rabbitmq-data:
+  sales-data:
