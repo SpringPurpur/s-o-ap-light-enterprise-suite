@@ -1,0 +1,4 @@
+# .NET build files and packages
+
+services/InventoryService/bin
+services/InventoryService/obj
