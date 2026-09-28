@@ -33,7 +33,20 @@ services:
     volumes:
       - sales-data:/var/lib/postgresql
 
+  finance-db:
+    image: postgres:latest
+    container_name: finance-postgres
+    environment:
+      POSTGRES_USER: finance_user
+      POSTGRES_PASSWORD: finance_pw
+      POSTGRES_DB: FinanceDb
+    ports:
+      - "5434:5432"
+    volumes:
+      - finance-data:/var/lib/postgresql
+
 volumes:
   inventory-data:
   rabbitmq-data:
   sales-data:
+  finance-data:
