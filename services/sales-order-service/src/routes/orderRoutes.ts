@@ -39,7 +39,9 @@ orderRoutes.post('/', async (req, res) => {
         return;
     }
     const validItems = lineItems.every(
-        (i) => typeof i?.productId === 'string' && Number.isInteger(i?.quantity) && i.quantity > 0
+        (i) => typeof i?.productId === 'string' &&
+               Number.isInteger(i?.quantity) && i.quantity > 0 &&
+               Number.isInteger(i?.unitPriceCents) && i.unitPriceCents >= 0
     );
     if (!validItems) {
         res.status(400).json({ error: 'Each line item needs a product id (string) and a positive integer quantity' });
@@ -68,6 +70,10 @@ orderRoutes.patch('/:id/status', async (req, res) => {
         res.status(400).json({ error: `Status must be one of: ${ORDER_STATUSES.join(', ')}`});
         return;
     }
-    const updated = await orderRepository.updateStatus(id, status);
+    const updated = await orderService.updateStatus(id, status);
+    if (!updated) {
+        res.status(404).json({ error: 'Order not found' });
+        return;
+    }
     res.json(updated);
 });

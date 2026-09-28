@@ -15,7 +15,13 @@ const PORT = Number(process.env.PORT ?? 3000);
 
 async function start() {
     await connectPublisher();
-    const server = app.listen(PORT, () => console.log(`Sales service listening on port ${PORT}`));
+    const server = app.listen(PORT, (err?: Error) => {
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+        console.log(`Sales service listening on port ${PORT}`)
+    });
 
     async function shutdown() {
         server.close();
