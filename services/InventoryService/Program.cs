@@ -33,6 +33,8 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
 
+builder.Services.AddHostedService<RabbitMqOrderCreatedConsumer>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
