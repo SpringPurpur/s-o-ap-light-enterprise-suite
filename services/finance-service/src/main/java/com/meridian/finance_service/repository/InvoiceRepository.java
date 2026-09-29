@@ -20,4 +20,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     @EntityGraph(attributePaths = "lines")
     Optional<Invoice> findByOrderId(Long orderId);
+
+    boolean existsByOrderId(Long orderId);
 }
