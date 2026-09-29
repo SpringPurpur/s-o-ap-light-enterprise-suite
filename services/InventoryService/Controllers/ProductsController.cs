@@ -1,4 +1,5 @@
 using System;
+using InventoryService.DTOs;
 using InventoryService.Models;
 using InventoryService.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,22 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Product>> Create(Product product)
     {
+        await _repository.CreateAsync(product);
+        return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Product>> Create(CreateProductRequest request)
+    {
+        var product = new Product
+        {
+            Sku = request.Sku,
+            Name = request.Name,
+            Category = request.Category,
+            UnitOfMeasure = request.UnitOfMeasure,
+            Specs = request.Specs
+        };
+
         await _repository.CreateAsync(product);
         return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
     }

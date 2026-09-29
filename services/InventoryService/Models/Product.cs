@@ -19,6 +19,9 @@ public class Product
     [BsonElement("category")]
     public string Category { get; set; } = null!;
 
+    [BsonElement("unitOfMeasure")]
+    public string UnitOfMeasure { get; set; } = null!;
+
     [BsonElement("specs")]
-    public Dictionary<string, object> Specs { get; set; } = null!;
+    public Dictionary<string, object>? Specs { get; set; } = null!;
 }

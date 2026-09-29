@@ -1,4 +1,5 @@
 using System;
+using InventoryService.DTOs;
 using InventoryService.Models;
 using InventoryService.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -34,5 +35,17 @@ public class SuppliersController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = supplier.Id }, supplier);
     }
 
-    
+    [HttpPost]
+    public async Task<ActionResult<Supplier>> Create(CreateSupplierRequest request)
+    {
+        var supplier = new Supplier
+        {
+            Name = request.Name,
+            ContactInfo = request.ContactInfo,
+            LeadTimeDays = request.LeadTimeDays
+        };
+
+        await _repository.CreateAsync(supplier);
+        return CreatedAtAction(nameof(GetById), new { id = supplier.Id }, supplier);
+    }
 }
