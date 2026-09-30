@@ -15,12 +15,14 @@
   "dependencies": {
     "@prisma/orm-postgres": "^8.0.0-rc.12",
     "amqplib": "^2.0.1",
+    "cors": "^2.8.6",
     "dotenv": "^18.0.4",
     "express": "^5.2.1"
   },
   "devDependencies": {
     "@prisma/cli-engine": "^0.6.1",
     "@types/amqplib": "^0.10.8",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.3",
     "prisma": "^8.0.0-rc.17",
