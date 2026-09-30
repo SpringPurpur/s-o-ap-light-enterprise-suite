@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import cors from 'cors';
 import express from 'express';
 import { orderRoutes } from './routes/orderRoutes.js';
 import { customerRoutes } from './routes/customerRoutes.js';
@@ -6,6 +7,7 @@ import { closePublisher, connectPublisher } from './events/eventPublisher.js';
 import { db } from './prisma/db.js';
 
 const app = express();
+app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(express.json());
 
 app.use('/api/orders', orderRoutes);
