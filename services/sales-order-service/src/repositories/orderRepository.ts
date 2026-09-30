@@ -1,5 +1,5 @@
-import { db } from "../prisma/db"
-import type { Models } from "../prisma/contract";
+import { db } from "../prisma/db.js"
+import type { Models } from "../prisma/contract.js";
 
 export const orderRepository = {
     async getAll() {

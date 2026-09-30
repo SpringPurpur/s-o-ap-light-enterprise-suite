@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { customerRepository } from "../repositories/customerRepository";
+import { customerRepository } from "../repositories/customerRepository.js";
 
 export const customerRoutes = Router();
 

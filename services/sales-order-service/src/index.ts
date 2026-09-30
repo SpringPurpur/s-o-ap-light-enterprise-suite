@@ -1,9 +1,9 @@
 import 'dotenv/config';
 import express from 'express';
-import { orderRoutes } from './routes/orderRoutes';
-import { customerRoutes } from './routes/customerRoutes';
-import { closePublisher, connectPublisher } from './events/eventPublisher';
-import { db } from './prisma/db';
+import { orderRoutes } from './routes/orderRoutes.js';
+import { customerRoutes } from './routes/customerRoutes.js';
+import { closePublisher, connectPublisher } from './events/eventPublisher.js';
+import { db } from './prisma/db.js';
 
 const app = express();
 app.use(express.json());

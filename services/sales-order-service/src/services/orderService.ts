@@ -1,7 +1,7 @@
-import { publishEvent } from "../events/eventPublisher";
-import { db } from "../prisma/db";
-import { orderRepository } from "../repositories/orderRepository";
-import { OrderStatus } from "../types/orderStatus";
+import { publishEvent } from "../events/eventPublisher.js";
+import { db } from "../prisma/db.js";
+import { orderRepository } from "../repositories/orderRepository.js";
+import { OrderStatus } from "../types/orderStatus.js";
 
 export interface CreateOrderInput {
     customerId: number;

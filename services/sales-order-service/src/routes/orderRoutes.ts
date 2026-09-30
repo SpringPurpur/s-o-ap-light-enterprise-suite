@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { OrderStatus } from "../types/orderStatus";
-import { orderRepository } from "../repositories/orderRepository";
-import { customerRepository } from "../repositories/customerRepository";
-import { orderService } from "../services/orderService";
+import { OrderStatus } from "../types/orderStatus.js";
+import { orderRepository } from "../repositories/orderRepository.js";
+import { customerRepository } from "../repositories/customerRepository.js";
+import { orderService } from "../services/orderService.js";
 
 export const orderRoutes = Router();
 

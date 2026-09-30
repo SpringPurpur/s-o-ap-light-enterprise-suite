@@ -4,22 +4,13 @@ services:
   inventory-db:
     image: mongo:latest
     container_name: inventory-mongo
-    ports:
-      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     volumes:
       - inventory-data:/data/db
-
-  rabbitmq:
-    image: rabbitmq:4-management
-    container_name: rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: enterprise # NOT FOR PRODUCTION USE
-      RABBITMQ_DEFAULT_PASS: enterprise_dev_pw # NOT FOR PRODUCTION USE
-    ports:
-      - "5672:5672" # AMQP protocol port (used byservices)
-      - "15672:15672" # Management UI - browser dashboard
-    volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
 
   sales-db:
     image: postgres:latest
@@ -28,6 +19,11 @@ services:
       POSTGRES_USER: sales_user
       POSTGRES_PASSWORD: sales_pw
       POSTGRES_DB: SalesDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sales_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5433:5432"
     volumes:
@@ -40,13 +36,80 @@ services:
       POSTGRES_USER: finance_user
       POSTGRES_PASSWORD: finance_pw
       POSTGRES_DB: FinanceDb
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finance_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     ports:
       - "5434:5432"
     volumes:
       - finance-data:/var/lib/postgresql
 
+  rabbitmq:
+      image: rabbitmq:4-management
+      container_name: rabbitmq
+      environment:
+        RABBITMQ_DEFAULT_USER: enterprise # NOT FOR PRODUCTION USE
+        RABBITMQ_DEFAULT_PASS: enterprise_dev_pw # NOT FOR PRODUCTION USE
+      healthcheck:
+        test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+      ports:
+        - "5672:5672" # AMQP protocol port (used byservices)
+        - "15672:15672" # Management UI - browser dashboard
+      volumes:
+        - rabbitmq-data:/var/lib/rabbitmq
+
+  inventory-service:
+      build: ./services/InventoryService
+      depends_on:
+        inventory-db:
+          condition: service_healthy
+        rabbitmq:
+          condition: service_healthy
+      environment:
+        MongoDbSettings__ConnectionString: mongodb://inventory-db:27017
+        MongoDbSettings__DatabaseName: InventoryDb
+        RabbitMq__ConnectionString: amqp://enterprise:enterprise_dev_pw@rabbitmq:5672
+      ports:
+        - "5212:8080"
+
+  sales-service:
+    build: ./services/sales-order-service
+    depends_on:
+      sales-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://sales_user:sales_pw@sales-db:5432/SalesDb
+      RABBITMQ_URL: amqp://enterprise:enterprise_dev_pw@rabbitmq:5672
+      PORT: 3000
+    ports:
+      - "3000:3000"
+
+  finance-service:
+    build: ./services/finance-service
+    depends_on:
+      finance-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://finance-db:5432/FinanceDb
+      SPRING_DATASOURCE_USERNAME: finance_user
+      SPRING_DATASOURCE_PASSWORD: finance_pw
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: enterprise
+      SPRING_RABBITMQ_PASSWORD: enterprise_dev_pw
+    ports:
+      - "8080:8080"
 volumes:
   inventory-data:
-  rabbitmq-data:
   sales-data:
   finance-data:
+  rabbitmq-data:
