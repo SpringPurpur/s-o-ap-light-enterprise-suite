@@ -1,0 +1,36 @@
+<div class="page">
+  <h1>New Order</h1>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      Customer
+      <select formControlName="customerId">
+        <option [ngValue]="null" disabled>Select a customer</option>
+        @for (customer of customers(); track customer.id) {
+          <option [ngValue]="customer.id">{{ customer.name }}</option>
+        }
+      </select>
+    </label>
+
+    <h2>Line Items</h2>
+    <div formArrayName="lineItems">
+      @for (line of lineItems.controls; track $index) {
+        <div [formGroupName]="$index" class="line-item-row">
+          <label
+            >Product ID
+            <input type="text" formControlName="productId" placeholder="Mongo product _id"
+          /></label>
+          <label>Quantity <input type="number" formControlName="quantity" min="1" /> </label>
+          <label
+            >Unit Price <input type="number" formControlName="unitPrice" min="0" step="0.01"
+          /></label>
+          <button type="button" (click)="removeLineItem($index)" [disabled]="lineItems.length === 1">Remove</button>
+        </div>
+      }
+    </div>
+    <button type="button" (click)="addLineItem()">+ Add Line Item</button>
+
+    @if (error()) { <p class="error">{{ error() }}</p> }
+
+    <button type="submit" [disabled]="submitting()">{{ submitting() ? 'Creating...' : 'Create Order' }}</button>
+  </form>
+</div>
