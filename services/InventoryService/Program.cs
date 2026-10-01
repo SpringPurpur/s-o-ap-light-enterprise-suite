@@ -46,12 +46,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapControllers();
     app.MapScalarApiReference();
-    app.UseCors("Frontend");
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Frontend");
+app.MapControllers();
 
 app.Run();
 
