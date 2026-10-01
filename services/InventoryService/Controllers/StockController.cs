@@ -44,5 +44,7 @@ public class StockController : ControllerBase
         return Ok(stockItem);
     }
 
-
+    [HttpGet]
+    public async Task<ActionResult<List<StockItem>>> GetAll() =>
+        Ok(await _repository.GetAllAsync());
 }

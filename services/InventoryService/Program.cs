@@ -34,6 +34,11 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddHostedService<RabbitMqOrderCreatedConsumer>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy =>
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+});
 
 var app = builder.Build();
 
@@ -43,6 +48,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapControllers();
     app.MapScalarApiReference();
+    app.UseCors("Frontend");
 }
 
 app.UseHttpsRedirection();
