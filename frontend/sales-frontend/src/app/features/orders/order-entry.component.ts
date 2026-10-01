@@ -3,7 +3,6 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { OrderApiService } from "../../core/services/order-api.service";
 import { Router } from "@angular/router";
 import { Customer } from "../../core/models/order.model";
-import { CurrencyPipe, DatePipe } from "@angular/common";
 
 @Component({
     selector: 'app-order-entry',

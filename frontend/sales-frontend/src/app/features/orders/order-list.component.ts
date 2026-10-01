@@ -1,4 +1,4 @@
-import { DatePipe } from "@angular/common";
+import { CurrencyPipe, DatePipe } from "@angular/common";
 import { Component, inject, OnInit, signal } from "@angular/core";
 import { RouterLink } from "@angular/router";
 import { OrderApiService } from "../../core/services/order-api.service";
@@ -7,7 +7,7 @@ import { Order } from "../../core/models/order.model";
 @Component({
     selector: 'app-order-list',
     standalone: true,
-    imports: [RouterLink, DatePipe],
+    imports: [RouterLink, DatePipe, CurrencyPipe],
     templateUrl: './order-list.component.html'
 })
 export class OrderListComponent implements OnInit {

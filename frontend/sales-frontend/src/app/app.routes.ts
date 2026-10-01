@@ -3,5 +3,6 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     { path: '', redirectTo: 'orders', pathMatch: 'full' },
     { path: 'orders', loadComponent: () => import('./features/orders/order-list.component').then(m => m.OrderListComponent) },
-    { path: 'orders/new', loadComponent: () => import('./features/orders/order-entry.component').then(m => m.OrderEntryComponent) }
+    { path: 'orders/new', loadComponent: () => import('./features/orders/order-entry.component').then(m => m.OrderEntryComponent) },
+    { path: 'stock', loadComponent: () => import('./features/inventory/stock-levels.component').then(m => m.StockLevelsComponent) }
 ];

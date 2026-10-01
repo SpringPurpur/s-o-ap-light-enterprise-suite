@@ -1,0 +1,37 @@
+<div class="page">
+  <div class="page-header">
+    <h1>Stock levels</h1>
+    @if (lowStockCount() > 0) {
+      <span class="badge-status-cancelled">{{ lowStockCount() }} below threshold</span>
+    }
+  </div>
+
+  @if (loading()) {
+    <p>Loading stock...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Product</th>
+          <th>Warehouse</th>
+          <th>On Hand</th>
+          <th>Reorder Threshold</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows(); track row.id) {
+          <tr [class.low-stock]="row.isLow">
+            <td>{{ row.sku }}</td>
+            <td>{{ row.productName }}</td>
+            <td>{{ row.warehouseId }}</td>
+            <td>{{ row.quantityOnHand }}</td>
+            <td>{{ row.reorderThreshold }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
