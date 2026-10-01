@@ -1,0 +1,45 @@
+<div class="page">
+    <h1>Invoices</h1>
+
+    @if (loading()) {
+        <p>Loading invoices...</p>
+    } @else if (error()) {
+        <p class="error">{{ error() }}</p>
+    } @else if (invoices().length === 0) {
+        <p>No invoices yet</p>
+    } @else {
+        <table>
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Order</td>
+                    <td>Status</td>
+                    <td>Total</td>
+                    <td>Issued</td>
+                    <td>Paid</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for (invoice of invoices(); track invoice.id) {
+                    <tr>
+                        <td>#{{ invoice.id }}</td>
+                        <td>Order #{{ invoice.orderId }}</td>
+                        <td><span class="badge" [class]="statusClass(invoice.status)">{{ invoice.status }}</span></td>
+                        <td>{{ (invoice.totalCents / 100) | currency: invoice.currency }}</td>
+                        <td>{{ invoice.issuedAt ? (invoice.issuedAt | date: 'short') : '-' }}</td>
+                        <td>{{ invoice.paidAt ? (invoice.paidAt | date: 'short') : '-' }}</td>
+                        <td>
+                            @if (invoice.status === 'ISSUED') {
+                                <button
+                                    (click)="pay(invoice.id)"
+                                    [disabled]="payingId() === invoice.id"
+                                    class="btn-approve"
+                                >Mark Paid</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
