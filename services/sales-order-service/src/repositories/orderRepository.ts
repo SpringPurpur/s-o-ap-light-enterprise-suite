@@ -3,7 +3,7 @@ import type { Models } from "../prisma/contract.js";
 
 export const orderRepository = {
     async getAll() {
-        return db.orm.public.Order.all();
+        return db.orm.public.Order.include('lineItems').all();
     },
 
     async getById(id: number) {
