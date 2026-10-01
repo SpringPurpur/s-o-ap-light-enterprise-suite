@@ -14,3 +14,13 @@ export interface StockItem {
     quantityOnHand: number;
     reorderThreshold: number;
 }
+
+export type RequisitionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+export interface PurchaseRequisition {
+    id: string;
+    productId: string;
+    quantityRequested: number;
+    status: RequisitionStatus;
+    createdAt: string;
+}

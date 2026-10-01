@@ -1,0 +1,48 @@
+<div class="page">
+  <h1>Requisition Approval Queue</h1>
+
+  @if (loading()) {
+    <p>Loading requisitions...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (rows().length === 0) {
+    <p>No pending requisitions.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Product</th>
+          <th>Qty Requested</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of rows(); track row.id) {
+          <tr>
+            <td>{{ row.sku }}</td>
+            <td>{{ row.productName }}</td>
+            <td>{{ row.quantityRequested }}</td>
+            <td>{{ row.createdAt | date: 'short' }}</td>
+            <td class="actions">
+              <button
+                (click)="approve(row.id)"
+                [disabled]="actingOnId() === row.id"
+                class="btn-approve"
+              >
+                Approve
+              </button>
+              <button
+                (click)="reject(row.id)"
+                [disabled]="actingOnId() === row.id"
+                class="btn-reject"
+              >
+                Reject
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

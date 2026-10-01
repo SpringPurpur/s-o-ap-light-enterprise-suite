@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { API_CONFIG } from "../config";
 import { Observable } from "rxjs";
-import { Product, StockItem } from "../models/inventory.model";
+import { Product, PurchaseRequisition, StockItem } from "../models/inventory.model";
 
 @Injectable({ providedIn: 'root' })
 export class InventoryApiService {
@@ -15,5 +15,17 @@ export class InventoryApiService {
 
     getStock(): Observable<StockItem[]> {
         return this.http.get<StockItem[]>(`${this.baseUrl}/stock`);
+    }
+
+    getPendingRequisitions(): Observable<PurchaseRequisition[]> {
+        return this.http.get<PurchaseRequisition[]>(`${this.baseUrl}/purchase/requisitions`);
+    }
+
+    approveRequisition(id: string): Observable<void> {
+        return this.http.post<void>(`${this.baseUrl}/purchase/requisitions/${id}/approve`, {});
+    }
+
+    rejectRequisition(id: string): Observable<void> {
+        return this.http.post<void>(`${this.baseUrl}/purchase/requisitions/${id}/reject`, {});
     }
 }
