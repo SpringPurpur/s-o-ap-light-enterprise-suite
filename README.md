@@ -145,4 +145,4 @@ Documented here deliberately, rather than left implicit, since each is a reasona
 - **No automated tests yet.** Finance's dependencies include Testcontainers in anticipation of this.
 - **No authentication.** All services are open on their local ports, and RabbitMQ/database credentials are plaintext environment variables suitable only for local development.
 
-A fuller conceptual write-up of what was learned while building this, organized by technology, is [here](https://claude.ai/artifact/344HXUVx9XNCKjT9C62cS2).
+A fuller conceptual write-up of what was learned while building this, organized by technology, is [here](https://claude.ai/artifact/9qeDYW6NccWUyg3BH4rK2B).
