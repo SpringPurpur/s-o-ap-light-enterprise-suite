@@ -1,0 +1,23 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Overview</h1>
+      <p class="page-subtitle">S(O)AP - order-to-cash and procurement, at a glance.</p>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p>Loading overview…</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <div class="summary-grid">
+      @for (card of cards(); track card.label) {
+        <a class="summary-card" [class]="'tone-' + card.tone" [routerLink]="card.link">
+          <span class="summary-value">{{ card.value }}</span>
+          <span class="summary-label">{{ card.label }}</span>
+        </a>
+      }
+    </div>
+  }
+</div>
